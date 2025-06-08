@@ -83,8 +83,8 @@
         .navbar { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 5%; }
         .logo-area { display: flex; align-items: center; gap: 12px; }
         .nav-logo { font-size: 1.8rem; font-weight: 800; color: var(--color-heading); text-decoration: none; }
-        .nav-menu-container { flex-grow: 1; display: none; justify-content: center; }
-        .nav-menu { list-style: none; display: flex; gap: 40px; align-items: center; }
+        .nav-menu-container { flex-grow: 1; display: none; }
+        .nav-menu { list-style: none; display: flex; gap: 40px; align-items: center; justify-content: center; }
         .nav-link { color: var(--color-text); text-decoration: none; font-weight: 600; transition: all 0.3s ease; padding-bottom: 5px; border-bottom: 2px solid transparent; white-space: nowrap; }
         .nav-link:hover, .nav-link.active { color: var(--color-primary); border-bottom-color: var(--color-primary); transform: translateY(-2px); }
         .nav-actions { display: flex; align-items: center; gap: 25px; }
@@ -217,7 +217,6 @@
     <div id="preloader"><div class="preloader-logo">Cerium</div></div>
     <div id="cursor-glow"></div>
 
-    <!-- Header & Navigation -->
     <header class="main-header">
         <nav class="navbar">
             <div class="logo-area">
@@ -264,7 +263,6 @@
     </header>
 
     <main>
-        <!-- Welcome / Hero Section -->
         <section id="welcome" class="hero-section">
             <div class="hero-content anim-fade-in">
                 <h1 class="hero-title">Elevate Your Game with <span class="gradient-text">Cerium</span></h1>
@@ -276,7 +274,6 @@
             </div>
         </section>
         
-        <!-- Supported Games Section -->
         <section id="supported-games" class="content-section">
             <h2 class="section-title anim-fade-in"><span class="gradient-text">Supported Games</span></h2>
             <div class="games-grid anim-fade-in">
@@ -293,7 +290,6 @@
             </div>
         </section>
 
-        <!-- Full Features Section -->
         <section id="features" class="content-section">
             <h2 class="section-title anim-fade-in"><span class="gradient-text">The Complete Toolkit</span></h2>
             
@@ -307,7 +303,19 @@
             <div class="timeline-container">
                 <div class="timeline-item anim-fade-in">
                     <div class="timeline-content card interactive-card">
-                        <h3>Version 1.0.0 <span class="update-date">- Initial Release</span></h3>
+                        <h3>Version 1.0.1 <span class="update-date">- May 8, 2025</span></h3>
+                        <div class="update-log">
+                            <h4><i class="fas fa-shield-alt"></i> Security & Stability</h4>
+                            <ul>
+                                <li>Bypassed latest anti-cheat measures.</li>
+                                <li>Fixed various minor bugs for a smoother experience.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item anim-fade-in">
+                    <div class="timeline-content card interactive-card">
+                        <h3>Version 1.0.0 <span class="update-date">- May 1, 2025</span></h3>
                         <div class="update-log">
                             <h4><i class="fas fa-plus"></i> Added: Initial Feature Set</h4>
                             <ul>
@@ -342,7 +350,7 @@
                 </div>
                 <div class="payment-content">
                     <div id="robux" class="tab-pane active" role="tabpanel" aria-labelledby="robux-tab"><div class="payment-price">500 R$</div><p>The standard and easiest way to pay.</p><a href="https://www.roblox.com/game-pass/1157916525/Buy" target="_blank" class="btn btn-primary purchase-btn"><i class="fas fa-shopping-cart"></i> Buy Gamepass</a><p style="font-size: 0.9rem; margin-top: 15px; opacity: 0.8;">After purchasing, join our Discord to claim your role!</p></div>
-                    <div id="paypal" class="tab-pane" role="tabpanel" aria-labelledby="paypal-tab"><div class="payment-price">$5.00 USD</div><p>Pay securely with PayPal.</p><ul class="payment-instructions"><li><i class="fas fa-check"></i>Join our Discord server.</li><li><i class="fas fa-check"></i>Open a ticket and select "PayPal".</li><li><i class="fas fa-check"></i>A staff member will provide the payment link.</li></ul><a href="https://discord.gg/qjsGU83urz" target="_blank" class="btn btn-primary purchase-btn">Purchase via Discord</a></div>
+                    <div id="paypal" class="tab-pane" role="tabpanel" aria-labelledby="paypal-tab"><div class="payment-price">$5.00 USD</div><p>Pay securely with PayPal.</p><a href="https://discord.gg/qjsGU83urz" target="_blank" class="btn btn-primary purchase-btn">Purchase via Discord</a></div>
                     <div id="cashapp" class="tab-pane" role="tabpanel" aria-labelledby="cashapp-tab"><div class="payment-price">$5.00 USD</div><p>Pay easily with Cash App.</p><ul class="payment-instructions"><li><i class="fas fa-check"></i>Open a ticket and request our $Cashtag.</li><li><div class="copy-container"><span class="copy-text">$YourCashtag</span><button class="copy-btn" data-tooltip="Copy to clipboard" data-copy="$YourCashtag">Copy</button></div></li></ul><a href="https://discord.gg/qjsGU83urz" target="_blank" class="btn btn-primary purchase-btn">Purchase via Discord</a></div>
                     <div id="crypto" class="tab-pane" role="tabpanel" aria-labelledby="crypto-tab"><div class="payment-price">Crypto Equivalent</div><p>We accept various cryptocurrencies.</p><ul class="payment-instructions"><li><i class="fas fa-check"></i>Join our Discord server.</li><li><i class="fas fa-check"></i>Open a ticket and specify your desired crypto.</li><li><i class="fas fa-check"></i>A staff member will provide the secure wallet address.</li></ul><a href="https://discord.gg/qjsGU83urz" target="_blank" class="btn btn-primary purchase-btn">Purchase via Discord</a></div>
                     <div id="nitro" class="tab-pane" role="tabpanel" aria-labelledby="nitro-tab"><div class="payment-price">Discord Nitro</div><p>Pay with Nitro Gifts or Server Boosts.</p><ul class="payment-instructions"><li><i class="fas fa-check"></i>2x Server Boosts (1 Month)</li><li><i class="fas fa-check"></i>OR 2x Nitro Classic Gifts</li><li><i class="fas fa-check"></i>Open a ticket in Discord to arrange payment.</li></ul><a href="https://discord.gg/qjsGU83urz" target="_blank" class="btn btn-primary purchase-btn">Purchase via Discord</a></div>
@@ -530,10 +538,9 @@
                     }).catch(err => console.error('Failed to copy: ', err));
                 });
             });
-
-            const statusIndicatorMobileContainer = document.getElementById('status-indicator-mobile');
+            const statusIndicatorMobileContainer = document.querySelector('.mobile-actions .logo-area');
             if(statusIndicatorMobileContainer) {
-                 statusIndicatorMobileContainer.innerHTML = document.querySelector('.logo-area .title-status-dot').outerHTML;
+                 statusIndicatorMobileContainer.innerHTML = document.querySelector('.navbar .logo-area').innerHTML;
             }
         });
     </script>
