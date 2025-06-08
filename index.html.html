@@ -105,19 +105,28 @@
         .hero-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         
         /* --- SUPPORTED GAMES SECTION --- */
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 800px; margin: 0 auto; }
-        .game-card { padding: 50px 30px; }
-        .game-card .card-icon { font-size: 3rem; margin-bottom: 15px; }
-        .game-card .card-icon.status-up { color: var(--color-status-up); }
-        .game-card .card-icon.status-caution { color: var(--color-status-caution); }
-        .game-card .card-icon.status-down { color: var(--color-status-down); }
-        .game-card h3 { font-size: 1.5rem; color: var(--color-heading); margin-bottom: 10px; }
-        .support-status { font-weight: 600; color: var(--color-text); }
+        .roblox-style-games { display: flex; flex-direction: column; gap: 40px; }
+        .roblox-game-card { position: relative; overflow: hidden; background: var(--color-card-bg); border: 1px solid var(--color-card-border); border-radius: 12px; padding: 20px; display: grid; grid-template-columns: 2fr 1.5fr; gap: 30px; align-items: center; text-align: left; transition: all 0.3s ease; }
+        .roblox-game-card.status-up { border-color: var(--color-status-up); box-shadow: 0 0 20px -5px var(--color-status-up); }
+        .roblox-game-card.status-caution { border-color: var(--color-status-caution); box-shadow: 0 0 20px -5px var(--color-status-caution); }
+        .roblox-game-card.status-down { border-color: var(--color-status-down); box-shadow: 0 0 20px -5px var(--color-status-down); }
+        .game-card-status-icon { position: absolute; top: 15px; right: 15px; font-size: 2rem; z-index: 2; text-shadow: 0 0 10px #000; }
+        .game-card-status-icon.status-up { color: var(--color-status-up); }
+        .game-card-status-icon.status-caution { color: var(--color-status-caution); }
+        .game-card-status-icon.status-down { color: var(--color-status-down); }
+        .game-thumbnail img { width: 100%; border-radius: 8px; display: block; }
+        .game-info h3 { font-size: 2rem; color: var(--color-heading); margin-bottom: 5px; }
+        .game-creator { color: var(--color-text); opacity: 0.8; margin-bottom: 20px; }
+        .game-play-button { display: block; width: 100%; padding: 15px; background: var(--color-primary); color: white; text-decoration: none; border-radius: 8px; text-align: center; font-size: 1.5rem; margin-bottom: 20px; transition: all 0.3s ease; }
+        .game-play-button:hover { background-color: var(--color-secondary); transform: scale(1.02); }
+        .game-actions { display: flex; justify-content: space-around; }
+        .game-action { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--color-text); opacity: 0.7; }
+        .game-action i { font-size: 1.2rem; }
+        .game-action span { font-size: 0.8rem; font-weight: 600; }
 
         /* --- FULL FEATURES SECTION --- */
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; text-align: left; }
-        .feature-category { margin-top: 50px; }
-        .feature-category:first-child { margin-top: 0; }
+        .feature-category { margin-top: 50px; } .feature-category:first-child { margin-top: 0; }
         .feature-category h3 { font-size: 1.8rem; color: var(--color-primary); margin-bottom: 20px; text-align: center; }
         .feature-card { background: var(--color-card-bg); border: 1px solid var(--color-card-border); border-radius: 15px; padding: 25px; display: flex; align-items: flex-start; gap: 20px; }
         .feature-card .card-icon { font-size: 2rem; color: var(--color-primary); margin-top: 5px; }
@@ -184,11 +193,11 @@
         .back-to-top:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--color-glow); }
 
         /* --- MOBILE NAVIGATION --- */
-        @media (min-width: 1025px) { .nav-menu-container { display: flex; } }
+        @media (min-width: 1025px) { .nav-menu-container { display: block; } }
         @media (max-width: 1024px) {
             .navbar { display: flex; justify-content: space-between; }
             .nav-menu-container, .nav-actions { display: none; }
-            .why-us-cards { grid-template-columns: 1fr; }
+            .why-us-cards, .roblox-game-card { grid-template-columns: 1fr; }
             .mobile-nav-container { display: block; }
             .nav-menu { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; flex-direction: column; justify-content: center; gap: 40px; background-color: var(--color-background); transition: right 0.4s ease-in-out; z-index: 1000; display: flex; }
             .nav-menu.active { right: 0; }
@@ -214,7 +223,7 @@
     - Use class="status-down" for not working. (Red Static)
     ==========================
 -->
-<body class="status-caution loading">
+<body class="status-up loading">
 
     <div id="preloader"><div class="preloader-logo">Cerium</div></div>
     <div id="cursor-glow"></div>
@@ -278,17 +287,11 @@
         
         <section id="supported-games" class="content-section">
             <h2 class="section-title anim-fade-in"><span class="gradient-text">Supported Games</span></h2>
-            <div class="games-grid anim-fade-in">
-                <div class="card game-card interactive-card">
-                    <i class="fas fa-times-circle card-icon status-down"></i>
-                    <h3>RF24 | FUTSAL</h3>
-                    <p class="support-status">Use With Caution</p>
-                </div>
-                <div class="card game-card interactive-card">
-                    <i class="fas fa-check-circle card-icon status-up"></i>
-                    <h3>Real Futbol 24</h3>
-                    <p class="support-status">Fully Supported</p>
-                </div>
+            <div class="roblox-style-games anim-fade-in">
+                <div class="roblox-game-card status-down"><i class="fas fa-times-circle game-card-status-icon"></i><div class="game-thumbnail"><img src="https://tr.rbxcdn.com/180DAY-f3838ebc601a1fb8412752c761b9b18f/768/432/Image/Webp/noFilter" alt="RF24 | FUTSAL Thumbnail"></div><div class="game-info"><h3>RF24 | FUTSAL</h3><p class="game-creator">By Real Sports Interactive</p><a href="https://www.roblox.com/games/16776979601/RF24-FUTSAL" target="_blank" class="game-play-button"><i class="fas fa-play"></i></a><div class="game-actions"><div class="game-action"><i class="fas fa-star"></i><span>Favorite</span></div><div class="game-action"><i class="fas fa-bell"></i><span>Notify</span></div><div class="game-action"><i class="fas fa-thumbs-up"></i><span>Like</span></div></div></div></div>
+                <div class="roblox-game-card status-up"><i class="fas fa-check-circle game-card-status-icon"></i><div class="game-thumbnail"><img src="https://tr.rbxcdn.com/180DAY-796d1556c3e3fefe55d8e62a097da81e/768/432/Image/Webp/noFilter" alt="Real Futbol 24 Thumbnail"></div><div class="game-info"><h3>Real Futbol 24</h3><p class="game-creator">By Real Sports Interactive</p><a href="https://www.roblox.com/games/14004668761/Real-Futbol-24" target="_blank" class="game-play-button"><i class="fas fa-play"></i></a><div class="game-actions"><div class="game-action"><i class="fas fa-star"></i><span>Favorite</span></div><div class="game-action"><i class="fas fa-bell"></i><span>Notify</span></div><div class="game-action"><i class="fas fa-thumbs-up"></i><span>Like</span></div></div></div></div>
+                <div class="roblox-game-card status-down"><i class="fas fa-times-circle game-card-status-icon"></i><div class="game-thumbnail"><img src="https://tr.rbxcdn.com/180DAY-be12fd748fa9edb14093a8d0a0955b52/768/432/Image/Webp/noFilter" alt="Realistic Street Soccer Thumbnail"></div><div class="game-info"><h3>Realistic Street Soccer</h3><p class="game-creator">By The Builder's Legion</p><a href="https://www.roblox.com/games/14315258385/Realistic-Street-Soccer" target="_blank" class="game-play-button"><i class="fas fa-play"></i></a><div class="game-actions"><div class="game-action"><i class="fas fa-star"></i><span>Favorite</span></div><div class="game-action"><i class="fas fa-bell"></i><span>Notify</span></div><div class="game-action"><i class="fas fa-thumbs-up"></i><span>Like</span></div></div></div></div>
+                <div class="roblox-game-card status-down"><i class="fas fa-times-circle game-card-status-icon"></i><div class="game-thumbnail"><img src="https://tr.rbxcdn.com/180DAY-0d42b2465cd7451d3f604eb745e5d532/768/432/Image/Webp/noFilter" alt="TPS: Street Soccer Thumbnail"></div><div class="game-info"><h3>TPS: Street Soccer</h3><p class="game-creator">By @TAYFUN7</p><a href="https://www.roblox.com/games/335760407/TPS-Street-Soccer" target="_blank" class="game-play-button"><i class="fas fa-play"></i></a><div class="game-actions"><div class="game-action"><i class="fas fa-star"></i><span>Favorite</span></div><div class="game-action"><i class="fas fa-bell"></i><span>Notify</span></div><div class="game-action"><i class="fas fa-thumbs-up"></i><span>Like</span></div></div></div></div>
             </div>
         </section>
 
@@ -303,41 +306,14 @@
         <section id="updates" class="content-section">
             <h2 class="section-title anim-fade-in"><span class="gradient-text">Version History</span></h2>
             <div class="timeline-container">
-                <div class="timeline-item anim-fade-in">
-                    <div class="timeline-content card interactive-card">
-                        <h3>Version 1.0.1 <span class="update-date">- May 8, 2025</span></h3>
-                        <div class="update-log">
-                            <h4><i class="fas fa-shield-alt"></i> Security & Stability</h4>
-                            <ul>
-                                <li>Bypassed latest anti-cheat measures.</li>
-                                <li>Fixed various minor bugs for a smoother experience.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item anim-fade-in">
-                    <div class="timeline-content card interactive-card">
-                        <h3>Version 1.0.0 <span class="update-date">- May 1, 2025</span></h3>
-                        <div class="update-log">
-                            <h4><i class="fas fa-plus"></i> Added: Initial Feature Set</h4>
-                            <ul>
-                                <li>Full suite of Combat, Player, Utility, and World Modification features established.</li>
-                                <li>Support for both RF24 | FUTSAL and Real Futbol 24.</li>
-                                <li>Security and anti-cheat bypasses implemented.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <div class="timeline-item anim-fade-in"><div class="timeline-content card interactive-card"><h3>Version 1.0.1 <span class="update-date">- May 8, 2025</span></h3><div class="update-log"><h4><i class="fas fa-shield-alt"></i> Security & Stability</h4><ul><li>Bypassed latest anti-cheat measures.</li><li>Fixed various minor bugs for a smoother experience.</li></ul></div></div></div>
+                <div class="timeline-item anim-fade-in"><div class="timeline-content card interactive-card"><h3>Version 1.0.0 <span class="update-date">- May 1, 2025</span></h3><div class="update-log"><h4><i class="fas fa-plus"></i> Added: Initial Feature Set</h4><ul><li>Full suite of Combat, Player, Utility, and World Modification features established.</li><li>Support for both RF24 | FUTSAL and Real Futbol 24.</li><li>Security and anti-cheat bypasses implemented.</li></ul></div></div></div>
             </div>
         </section>
 
         <section id="why-us" class="content-section">
             <h2 class="section-title anim-fade-in"><span class="gradient-text">Why Choose Cerium?</span></h2>
-            <div class="why-us-cards anim-fade-in">
-                <div class="card interactive-card"><i class="fas fa-bolt-lightning card-icon"></i><h3>Peak Performance</h3><p>Cerium is meticulously optimized for zero-lag performance, ensuring your gameplay is always smooth and responsive, even in the most intense moments.</p></div>
-                <div class="card interactive-card"><i class="fas fa-shield-halved card-icon"></i><h3>Unmatched Security</h3><p>With advanced bypass mechanisms and a dedicated team, we prioritize your account's safety, allowing you to play with confidence.</p></div>
-                <div class="card interactive-card"><i class="fas fa-sync-alt card-icon"></i><h3>Dedicated Support</h3><p>Our staff is active daily in our Discord server, ready to assist with any questions and provide continuous updates to keep the script at its best.</p></div>
-            </div>
+            <div class="why-us-cards anim-fade-in"><div class="card interactive-card"><i class="fas fa-bolt-lightning card-icon"></i><h3>Peak Performance</h3><p>Cerium is meticulously optimized for zero-lag performance, ensuring your gameplay is always smooth and responsive, even in the most intense moments.</p></div><div class="card interactive-card"><i class="fas fa-shield-halved card-icon"></i><h3>Unmatched Security</h3><p>With advanced bypass mechanisms and a dedicated team, we prioritize your account's safety, allowing you to play with confidence.</p></div><div class="card interactive-card"><i class="fas fa-sync-alt card-icon"></i><h3>Dedicated Support</h3><p>Our staff is active daily in our Discord server, ready to assist with any questions and provide continuous updates to keep the script at its best.</p></div></div>
         </section>
 
         <section id="pricing" class="content-section">
@@ -392,11 +368,6 @@
     
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // --- SALE CONFIGURATION ---
-            const saleActive = true; // Set to true to activate the sale, false to deactivate
-            const cashSalePercentage = 50; // e.g., 20 for 20% off
-            const robuxSalePercentage = 35; // e.g., 5 for 5% off
-            
             const preloader = document.getElementById('preloader');
             setTimeout(() => {
                 preloader.classList.add('fade-out');
@@ -552,6 +523,10 @@
 
             // --- SALE PRICE CALCULATION LOGIC ---
             function applySales() {
+                const saleActive = true;
+                const cashSalePercentage = 20;
+                const robuxSalePercentage = 5;
+                
                 const originalRobux = 500;
                 const originalCash = 5.00;
                 const robuxContainer = document.getElementById('robux-price-container');
