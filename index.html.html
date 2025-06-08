@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cerium | The Ultimate RF24 Script</title>
     
+    <!-- External Dependencies -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- INTERNAL CSS STYLES -->
     <style>
         :root {
             --color-background: #0d0d1a;
@@ -27,11 +29,13 @@
             --font-family: 'Poppins', sans-serif;
         }
 
+        /* --- KEYFRAME ANIMATIONS --- */
         @keyframes pulse-up { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 10px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
         @keyframes pulse-caution { 0% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); } 70% { box-shadow: 0 0 0 10px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes preloader-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } }
 
+        /* --- GLOBAL & BODY STYLES --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; scroll-padding-top: var(--header-height); }
         body {
@@ -46,12 +50,15 @@
         }
         body.loading { overflow: hidden; }
 
+        /* --- PRELOADER --- */
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--color-background); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease; }
         #preloader.fade-out { opacity: 0; visibility: hidden; }
         .preloader-logo { font-size: 2.5rem; font-weight: 800; color: var(--color-heading); animation: preloader-pulse 1.5s infinite ease-in-out; }
 
+        /* --- CURSOR GLOW EFFECT --- */
         #cursor-glow { position: fixed; top: 0; left: 0; width: 800px; height: 800px; background: radial-gradient(circle, var(--color-glow) 0%, rgba(13, 13, 26, 0) 60%); border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: -1; transition: width 0.3s ease, height 0.3s ease; }
 
+        /* --- UTILITY & REUSABLE CLASSES --- */
         .btn { display: inline-block; padding: 14px 32px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer; white-space: nowrap; }
         .btn-primary { background-color: var(--color-primary); color: #fff; box-shadow: 0 5px 25px -5px var(--color-glow); }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px -8px var(--color-primary); }
@@ -70,12 +77,13 @@
         .card-icon { transition: transform 0.3s ease, filter 0.3s ease; }
         .card:hover .card-icon { transform: scale(1.1); filter: drop-shadow(0 0 10px var(--color-glow)); }
 
+        /* --- HEADER & NAVIGATION --- */
         .main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: background-color 0.3s ease; height: var(--header-height); display: flex; align-items: center; }
         .main-header.scrolled { background: rgba(13, 13, 26, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-card-border); }
         .navbar { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 5%; }
         .logo-area { display: flex; align-items: center; gap: 12px; }
         .nav-logo { font-size: 1.8rem; font-weight: 800; color: var(--color-heading); text-decoration: none; }
-        .nav-menu-container { display: none; flex-grow: 1; justify-content: center; }
+        .nav-menu-container { flex-grow: 1; display: none; justify-content: center; }
         .nav-menu { list-style: none; display: flex; gap: 40px; align-items: center; }
         .nav-link { color: var(--color-text); text-decoration: none; font-weight: 600; transition: all 0.3s ease; padding-bottom: 5px; border-bottom: 2px solid transparent; white-space: nowrap; }
         .nav-link:hover, .nav-link.active { color: var(--color-primary); border-bottom-color: var(--color-primary); transform: translateY(-2px); }
@@ -83,23 +91,30 @@
         .nav-btn { padding: 10px 28px; font-size: 0.9rem; }
         .mobile-nav-container { display: none; }
         
+        /* --- TITLE STATUS DOT --- */
         .title-status-dot { width: 12px; height: 12px; border-radius: 50%; transition: background-color 0.3s ease; }
         body.status-up .title-status-dot { background-color: var(--color-status-up); animation: pulse-up 2s infinite; }
         body.status-down .title-status-dot { background-color: var(--color-status-down); }
         body.status-caution .title-status-dot { background-color: var(--color-status-caution); animation: pulse-caution 2s infinite; }
 
+        /* --- HERO SECTION --- */
         .hero-section { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: var(--header-height) 5% 0; }
         .hero-content { max-width: 800px; }
         .hero-title { font-size: 4.5rem; font-weight: 800; color: var(--color-heading); line-height: 1.1; margin-bottom: 20px; }
         .hero-subtitle { font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; min-height: 54px; }
         .hero-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         
+        /* --- SUPPORTED GAMES SECTION --- */
         .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 800px; margin: 0 auto; }
         .game-card { padding: 50px 30px; }
-        .game-card .card-icon { font-size: 3rem; color: var(--color-status-up); margin-bottom: 15px; }
+        .game-card .card-icon { font-size: 3rem; margin-bottom: 15px; }
+        .game-card .card-icon.status-up { color: var(--color-status-up); }
+        .game-card .card-icon.status-caution { color: var(--color-status-caution); }
+        .game-card .card-icon.status-down { color: var(--color-status-down); }
         .game-card h3 { font-size: 1.5rem; color: var(--color-heading); margin-bottom: 10px; }
         .support-status { font-weight: 600; color: var(--color-text); }
 
+        /* --- FULL FEATURES SECTION --- */
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; text-align: left; }
         .feature-category { margin-top: 50px; }
         .feature-category:first-child { margin-top: 0; }
@@ -109,6 +124,7 @@
         .feature-card-text h4 { font-size: 1.1rem; color: var(--color-heading); margin-bottom: 5px; }
         .feature-card-text p { font-size: 0.9rem; }
 
+        /* --- UPDATES/TIMELINE SECTION --- */
         .timeline-container { position: relative; max-width: 900px; margin: 0 auto; }
         .timeline-container::before { content: ''; position: absolute; width: 4px; background: var(--color-card-border); top: 0; bottom: 0; left: 50%; transform: translateX(-50%); }
         .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
@@ -122,9 +138,11 @@
         .update-log li { margin-bottom: 5px; position: relative; }
         .update-log li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: -20px; color: var(--color-status-up); font-size: 0.8rem; }
 
+        /* --- WHY-US SECTION --- */
         .why-us-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
         .why-us-cards .card-icon { font-size: 3rem; margin-bottom: 20px; color: var(--color-primary); }
 
+        /* --- PRICING SECTION --- */
         .pricing-card { max-width: 600px; margin: 0 auto; }
         .payment-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
         .tab-btn { background: rgba(255,255,255,0.1); border: none; color: var(--color-text); padding: 10px 15px; border-radius: 8px; cursor: pointer; font-family: var(--font-family); font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.3s; }
@@ -141,6 +159,7 @@
         .copy-btn { background: var(--color-secondary); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
         .purchase-btn { width: 100%; max-width: 350px; margin: 20px auto 0; padding: 15px 0; font-size: 1.2rem; }
 
+        /* --- PARTNERS & STAFF SECTION --- */
         .partners-grid, .staff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
         .partner-card .btn-secondary { margin-top: auto; } .partner-card { display: flex; flex-direction: column; }
         .partner-disclaimer { margin-top: 50px; color: var(--color-text); font-style: italic; opacity: 0.8; }
@@ -153,6 +172,7 @@
         .staff-socials a { color: var(--color-text); font-size: 1.5rem; margin: 0 10px; transition: color 0.3s ease; }
         .staff-socials a:hover { color: var(--color-primary); }
 
+        /* --- CALL TO ACTION & BACK TO TOP --- */
         #cta-section { padding: 120px 5%; background: transparent; }
         #cta-section h2 { font-size: 2.5rem; margin-bottom: 20px; }
         #cta-section p { max-width: 600px; margin: 0 auto 30px; }
@@ -161,9 +181,7 @@
         .back-to-top.visible { opacity: 1; visibility: visible; }
         .back-to-top:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--color-glow); }
 
-        .hamburger { display: none; cursor: pointer; background: none; border: none; z-index: 1001; }
-        .hamburger .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: white; transition: all 0.3s ease-in-out; }
-        
+        /* --- MOBILE NAVIGATION --- */
         @media (min-width: 1025px) { .nav-menu-container { display: flex; } }
         @media (max-width: 1024px) {
             .navbar { display: flex; justify-content: space-between; }
@@ -173,6 +191,7 @@
             .nav-menu { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; flex-direction: column; justify-content: center; gap: 40px; background-color: var(--color-background); transition: right 0.4s ease-in-out; z-index: 1000; display: flex; }
             .nav-menu.active { right: 0; }
             .hamburger { display: block; z-index: 1001; }
+            .hamburger .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: white; transition: all 0.3s ease-in-out; }
             .hamburger.active .bar:nth-child(2) { opacity: 0; }
             .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -193,11 +212,12 @@
     - Use class="status-down" for not working. (Red Static)
     ==========================
 -->
-<body class="status-caution">
+<body class="status-up loading">
 
     <div id="preloader"><div class="preloader-logo">Cerium</div></div>
     <div id="cursor-glow"></div>
 
+    <!-- Header & Navigation -->
     <header class="main-header">
         <nav class="navbar">
             <div class="logo-area">
@@ -244,6 +264,7 @@
     </header>
 
     <main>
+        <!-- Welcome / Hero Section -->
         <section id="welcome" class="hero-section">
             <div class="hero-content anim-fade-in">
                 <h1 class="hero-title">Elevate Your Game with <span class="gradient-text">Cerium</span></h1>
@@ -255,17 +276,28 @@
             </div>
         </section>
         
+        <!-- Supported Games Section -->
         <section id="supported-games" class="content-section">
             <h2 class="section-title anim-fade-in"><span class="gradient-text">Supported Games</span></h2>
             <div class="games-grid anim-fade-in">
-                <div class="card game-card interactive-card"><i class="fas fa-check-circle card-icon"></i><h3>RF24 | FUTSAL</h3><p class="support-status">Fully Supported</p></div>
-                <div class="card game-card interactive-card"><i class="fas fa-check-circle card-icon"></i><h3>Real Futbol 24</h3><p class="support-status">Fully Supported</p></div>
+                <div class="card game-card interactive-card">
+                    <i class="fas fa-times-circle card-icon status-down"></i>
+                    <h3>RF24 | FUTSAL</h3>
+                    <p class="support-status">Fully Supported</p>
+                </div>
+                <div class="card game-card interactive-card">
+                    <i class="fas fa-question-circle card-icon status-caution"></i>
+                    <h3>Real Futbol 24</h3>
+                    <p class="support-status">Use with Caution</p>
+                </div>
             </div>
         </section>
 
+        <!-- Full Features Section -->
         <section id="features" class="content-section">
             <h2 class="section-title anim-fade-in"><span class="gradient-text">The Complete Toolkit</span></h2>
-            <div class="feature-category anim-fade-in"><h3><i class="fas fa-crosshairs"></i> Reach & Ball Control</h3><div class="features-grid"><div class="feature-card"><i class="fas fa-bullseye card-icon"></i><div class="feature-card-text"><h4>Auto Goal Aimbot</h4><p>Perfectly aim and shoot at any corner with adjustable power and curve.</p></div></div><div class="feature-card"><i class="fas fa-hand-sparkles card-icon"></i><div class="feature-card-text"><h4>Customizable Reach</h4><p>Dominate the field with adjustable width, height, depth, and offset for ball interaction.</p></div></div><div class="feature-card"><i class="fas fa-bomb card-icon"></i><div class="feature-card-text"><h4>Power Shot</h4><p>Unleash high-velocity kicks with an adjustable power multiplier and vertical boost.</p></div></div><div class="feature-card"><i class="fas fa-pause-circle card-icon"></i><div class="feature-card-text"><h4>Ball Freeze</h4><p>Stop the ball in its tracks with a convenient keybind for strategic plays.</p></div></div><div class="feature-card"><i class="fas fa-magnet card-icon"></i><div class="feature-card-text"><h4>Bring Ball to Player</h4><p>Instantly teleport the ball to your character's feet for a perfect setup.</p></div></div><div class="feature-card"><i class="fas fa-bolt-lightning card-icon"></i><div class="feature-card-text"><h4>Enhanced Kick Charge</h4><p>Charge up your kicks significantly faster with an adjustable multiplier.</p></div></div></div></div>
+            
+            <div class="feature-category anim-fade-in"><h3><i class="fas fa-crosshairs"></i> Combat & Ball Control</h3><div class="features-grid"><div class="feature-card"><i class="fas fa-bullseye card-icon"></i><div class="feature-card-text"><h4>Auto Goal Aimbot</h4><p>Perfectly aim and shoot at any corner with adjustable power and curve.</p></div></div><div class="feature-card"><i class="fas fa-hand-sparkles card-icon"></i><div class="feature-card-text"><h4>Customizable Reach</h4><p>Dominate the field with adjustable width, height, depth, and offset for ball interaction.</p></div></div><div class="feature-card"><i class="fas fa-bomb card-icon"></i><div class="feature-card-text"><h4>Power Shot</h4><p>Unleash high-velocity kicks with an adjustable power multiplier and vertical boost.</p></div></div><div class="feature-card"><i class="fas fa-pause-circle card-icon"></i><div class="feature-card-text"><h4>Ball Freeze</h4><p>Stop the ball in its tracks with a convenient keybind for strategic plays.</p></div></div><div class="feature-card"><i class="fas fa-magnet card-icon"></i><div class="feature-card-text"><h4>Bring Ball to Player</h4><p>Instantly teleport the ball to your character's feet for a perfect setup.</p></div></div><div class="feature-card"><i class="fas fa-bolt-lightning card-icon"></i><div class="feature-card-text"><h4>Enhanced Kick Charge</h4><p>Charge up your kicks significantly faster with an adjustable multiplier.</p></div></div></div></div>
             <div class="feature-category anim-fade-in"><h3><i class="fas fa-user-astronaut"></i> Player & Movement</h3><div class="features-grid"><div class="feature-card"><i class="fas fa-infinity card-icon"></i><div class="feature-card-text"><h4>Unlimited Stamina</h4><p>Sprint endlessly without ever running out of stamina.</p></div></div><div class="feature-card"><i class="fas fa-person-running card-icon"></i><div class="feature-card-text"><h4>Super Speed</h4><p>Move across the field at incredible speeds with an adjustable boost.</p></div></div><div class="feature-card"><i class="fas fa-theater-masks card-icon"></i><div class="feature-card-text"><h4>Play Any Animation</h4><p>Use any goal celebration or referee animation on command.</p></div></div><div class="feature-card"><i class="fas fa-shield-halved card-icon"></i><div class="feature-card-text"><h4>Goalkeeper Mastery</h4><p>Enable auto-catch, play outside the box, and toggle gloves for ultimate defense.</p></div></div><div class="feature-card"><i class="fas fa-map-marked-alt card-icon"></i><div class="feature-card-text"><h4>Pitch Teleporter</h4><p>Instantly teleport to the center of the pitch from anywhere.</p></div></div><div class="feature-card"><i class="fas fa-users card-icon"></i><div class="feature-card-text"><h4>Force Team Join</h4><p>Join any team you want, regardless of team balance or restrictions.</p></div></div></div></div>
             <div class="feature-category anim-fade-in"><h3><i class="fas fa-cogs"></i> Utility & World Mods</h3><div class="features-grid"><div class="feature-card"><i class="fas fa-eye card-icon"></i><div class="feature-card-text"><h4>Reach Visualizer</h4><p>See your exact reach area with a customizable hitbox visualizer.</p></div></div><div class="feature-card"><i class="fas fa-cloud-sun-rain card-icon"></i><div class="feature-card-text"><h4>Environment Control</h4><p>Change the weather (Snow, Rain, Clear) and time of day (Day, Night) at will.</p></div></div><div class="feature-card"><i class="fas fa-ban card-icon"></i><div class="feature-card-text"><h4>Rule Breaker</h4><p>Disable out-of-bounds rules and remove invisible pitch barriers completely.</p></div></div><div class="feature-card"><i class="fas fa-shield-virus card-icon"></i><div class="feature-card-text"><h4>Constant Bypasses</h4><p>Our team works around the clock to ensure Cerium stays ahead of anti-cheat updates.</p></div></div><div class="feature-card"><i class="fas fa-server card-icon"></i><div class="feature-card-text"><h4>Server Utilities</h4><p>Quickly rejoin the current server or copy the Game ID to your clipboard.</p></div></div><div class="feature-card"><i class="fas fa-user-secret card-icon"></i><div class="feature-card-text"><h4>Advanced Security</h4><p>Built with multiple bypass and anti-detection mechanisms for your peace of mind.</p></div></div></div></div>
         </section>
@@ -279,7 +311,7 @@
                         <div class="update-log">
                             <h4><i class="fas fa-plus"></i> Added: Initial Feature Set</h4>
                             <ul>
-                                <li>Full suite of Reach, Player, Utility, and World Modification features established.</li>
+                                <li>Full suite of Combat, Player, Utility, and World Modification features established.</li>
                                 <li>Support for both RF24 | FUTSAL and Real Futbol 24.</li>
                                 <li>Security and anti-cheat bypasses implemented.</li>
                             </ul>
@@ -498,6 +530,7 @@
                     }).catch(err => console.error('Failed to copy: ', err));
                 });
             });
+
             const statusIndicatorMobileContainer = document.getElementById('status-indicator-mobile');
             if(statusIndicatorMobileContainer) {
                  statusIndicatorMobileContainer.innerHTML = document.querySelector('.logo-area .title-status-dot').outerHTML;
