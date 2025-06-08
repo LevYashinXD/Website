@@ -214,7 +214,7 @@
     - Use class="status-down" for not working. (Red Static)
     ==========================
 -->
-<body class="status-up loading">
+<body class="status-caution loading">
 
     <div id="preloader"><div class="preloader-logo">Cerium</div></div>
     <div id="cursor-glow"></div>
@@ -282,7 +282,7 @@
                 <div class="card game-card interactive-card">
                     <i class="fas fa-check-circle card-icon status-up"></i>
                     <h3>RF24 | FUTSAL</h3>
-                    <p class="support-status">Fully Supported</p>
+                    <p class="support-status">Use With Caution</p>
                 </div>
                 <div class="card game-card interactive-card">
                     <i class="fas fa-check-circle card-icon status-up"></i>
@@ -393,9 +393,9 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // --- SALE CONFIGURATION ---
-            const saleActive = false; // Set to true to activate the sale, false to deactivate
-            const cashSalePercentage = 0; // e.g., 20 for 20% off
-            const robuxSalePercentage = 0; // e.g., 5 for 5% off
+            const saleActive = true; // Set to true to activate the sale, false to deactivate
+            const cashSalePercentage = 50; // e.g., 20 for 20% off
+            const robuxSalePercentage = 35; // e.g., 5 for 5% off
             
             const preloader = document.getElementById('preloader');
             setTimeout(() => {
