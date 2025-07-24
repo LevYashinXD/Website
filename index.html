@@ -71,6 +71,8 @@
         .main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: background-color 0.3s ease, border-bottom-color 0.3s ease; height: var(--header-height); display: flex; align-items: center; border-bottom: 1px solid transparent; }
         .main-header.scrolled { background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom-color: var(--color-card-border); }
         .navbar { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 5%; }
+        .nav-left { display: flex; align-items: center; gap: 60px; }
+        .nav-actions { display: flex; align-items: center; gap: 25px; }
         .logo-area { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         .nav-logo { font-size: 1.8rem; font-weight: 800; color: var(--color-heading); text-decoration: none; }
         .nav-menu { list-style: none; display: flex; gap: 45px; align-items: center; }
@@ -136,7 +138,6 @@
         body.unauthenticated #login-wall { display: flex; }
         #main-content { display: none; }
         body.authenticated #main-content { display: block; }
-
         #bug-report-form { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; text-align: left; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--color-heading); }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--color-card-border); background: var(--color-card-bg); color: var(--color-text); font-family: var(--font-family); font-size: 1rem; transition: border-color 0.3s, box-shadow 0.3s; }
@@ -193,7 +194,6 @@
 </head>
 <body>
     <script>
-        // This script runs before the page loads to prevent the login screen from flashing for logged-in users.
         if (localStorage.getItem('discord_user_v2')) {
             document.body.classList.add('authenticated');
         } else {
@@ -215,18 +215,20 @@
     <div id="main-content">
         <header class="main-header">
             <nav class="navbar">
-                <a href="#welcome" class="logo-area">
-                    <span class="nav-logo">Cerium</span>
-                    <span class="title-status-dot"></span>
-                </a>
-                <div class="nav-menu-container">
-                    <ul class="nav-menu">
-                        <li><a href="#supported-games" class="nav-link">Games</a></li>
-                        <li><a href="#features" class="nav-link">Features</a></li>
-                        <li><a href="#updates" class="nav-link">Updates</a></li>
-                        <li><a href="#staff" class="nav-link">Team</a></li>
-                        <li><a href="#bug-report" class="nav-link">Report a Bug</a></li>
-                    </ul>
+                <div class="nav-left">
+                    <a href="#welcome" class="logo-area">
+                        <span class="nav-logo">Cerium</span>
+                        <span class="title-status-dot"></span>
+                    </a>
+                    <div class="nav-menu-container">
+                        <ul class="nav-menu">
+                            <li><a href="#supported-games" class="nav-link">Games</a></li>
+                            <li><a href="#features" class="nav-link">Features</a></li>
+                            <li><a href="#updates" class="nav-link">Updates</a></li>
+                            <li><a href="#staff" class="nav-link">Team</a></li>
+                            <li><a href="#bug-report" class="nav-link">Report a Bug</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="nav-actions">
                     <div class="user-info-details" style="gap: 10px;">
@@ -460,13 +462,16 @@
         const showLoginWall = (message = null) => {
             document.body.classList.remove('authenticated');
             document.body.classList.add('unauthenticated');
+            if(message) {
+                const msgEl = document.getElementById('login-status-message');
+                if (msgEl) msgEl.textContent = message;
+            }
         };
 
         const showMainContent = (userData) => {
             document.body.classList.remove('unauthenticated');
             document.body.classList.add('authenticated');
             
-            // Populate user info in both header and bug report section
             const avatarUrl = `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`;
             const userName = `${userData.username}#${userData.discriminator}`;
             
@@ -475,7 +480,7 @@
             document.getElementById('nav-user-avatar').src = avatarUrl;
             document.getElementById('nav-user-name').textContent = userName;
 
-            initializePage(); // Run the rest of the page's JS
+            initializePage(); 
         };
 
         discordLoginBtn.addEventListener('click', () => {
@@ -496,7 +501,7 @@
                 document.getElementById('login-wall').querySelector('p').textContent = "Authenticating...";
                 try {
                     const response = await fetch('https://discord.com/api/users/@me', { headers: { authorization: `Bearer ${accessToken}` } });
-                    if (!response.ok) throw new Error('Failed to fetch user data.');
+                    if (!response.ok) throw new Error('Failed to fetch user data from Discord.');
                     
                     const userData = await response.json();
                     localStorage.setItem('discord_user_v2', JSON.stringify(userData));
