@@ -175,7 +175,7 @@
         .staff-socials a { color: var(--color-text); font-size: 1.5rem; margin-left: 15px; transition: color 0.3s ease, transform 0.3s ease; }
         .staff-socials a:hover { color: var(--color-heading); transform: translateY(-2px); }
         
-        #bug-report-form { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; text-align: left; }
+        #bug-report-form { max-width: 700px; margin: 40px auto 0; display: flex; flex-direction: column; gap: 20px; text-align: left; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--color-heading); }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--color-card-border); background: var(--color-card-bg); color: var(--color-text); font-family: var(--font-family); font-size: 1rem; transition: border-color 0.3s, box-shadow 0.3s; }
         .form-group .select-wrapper { position: relative; }
@@ -189,7 +189,6 @@
         #form-status-message.success { color: var(--color-status-up); }
         #form-status-message.error { color: var(--color-status-down); }
         #submit-bug-report:disabled { opacity: 0.7; cursor: not-allowed; }
-        .user-info { display: flex; align-items: center; justify-content: space-between; padding: 20px; border: 1px solid var(--color-card-border); border-radius: var(--border-radius); margin-bottom: 40px; background: var(--color-card-bg); }
         .user-info-details { display: flex; align-items: center; gap: 15px; }
         .user-avatar { width: 50px; height: 50px; border-radius: 50%; }
         .user-name { font-weight: 600; color: var(--color-heading); }
@@ -223,7 +222,6 @@
             .staff-card { grid-template-columns: 1fr; text-align: center; justify-items: center; gap: 15px; }
             .staff-socials { margin-top: 10px; }
             .staff-socials a { margin: 0 10px; }
-            .user-info { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
@@ -489,13 +487,6 @@
                 <h2 class="section-title reveal-container"><span class="reveal-child">Report a Bug</span></h2>
                 <div id="bug-report-container" class="reveal-container">
                     <div id="report-container" class="reveal-child" style="--i: 1;">
-                        <div class="user-info">
-                            <div class="user-info-details">
-                                <img src="" alt="User Avatar" id="user-avatar" class="user-avatar">
-                                <span id="user-name" class="user-name"></span>
-                            </div>
-                            <button id="discord-logout-btn" class="btn btn-secondary">Logout</button>
-                        </div>
                         <form id="bug-report-form">
                             <div class="form-group">
                                 <label for="game-select">Select Game</label>
@@ -547,7 +538,6 @@
         const welcomeTransition = document.getElementById('welcome-transition');
         const discordLoginBtn = document.getElementById('discord-login-btn');
         const discordLogoutBtnHeader = document.getElementById('discord-logout-btn-header');
-        const discordLogoutBtnForm = document.getElementById('discord-logout-btn');
         const bugReportForm = document.getElementById('bug-report-form');
         
         // --- PAGE STATE MANAGEMENT ---
@@ -587,8 +577,6 @@
             const avatarUrl = `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`;
             const userName = `${userData.username}#${userData.discriminator}`;
             
-            document.getElementById('user-avatar').src = avatarUrl;
-            document.getElementById('user-name').textContent = userName;
             document.getElementById('nav-user-avatar').src = avatarUrl;
             document.getElementById('nav-user-name').textContent = userName;
             
@@ -609,7 +597,6 @@
         });
         
         discordLogoutBtnHeader.addEventListener('click', handleLogout);
-        discordLogoutBtnForm.addEventListener('click', handleLogout);
 
         const handleOAuthCallback = async () => {
             const fragment = new URLSearchParams(window.location.hash.substring(1));
