@@ -46,12 +46,15 @@
         @keyframes hero-core-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes btn-shine { to { transform: translateX(120%) skewX(-25deg); } }
         @keyframes reveal-up { from { opacity: 0; transform: translateY(50px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        
         #cursor-glow { position: fixed; top: 0; left: 0; width: 600px; height: 600px; background: radial-gradient(circle, var(--color-glow) 0%, transparent 70%); border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: -1; transition: transform 0.2s ease-out; }
         @media (pointer: coarse) { #cursor-glow { display: none; } }
         .btn { position: relative; display: inline-block; padding: 14px 32px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all var(--transition-speed) var(--transition-curve); border: 1px solid var(--color-card-border); cursor: pointer; white-space: nowrap; overflow: hidden; backdrop-filter: blur(5px); }
+        .btn:active { transform: translateY(-2px) scale(0.98); }
         .btn-primary { background-image: var(--primary-gradient); color: #000; border-color: transparent; box-shadow: 0 8px 30px -10px var(--color-glow); }
         .btn-primary:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 12px 35px -8px var(--color-glow); }
-        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 75%; height: 100%; transform: skewX(-25deg); background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%); animation: btn-shine 1s ease-in-out 2.s infinite; }
+        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 75%; height: 100%; transform: skewX(-25deg); background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%); animation: btn-shine 1s ease-in-out 2.5s infinite; }
         .btn-secondary { background-color: transparent; color: var(--color-heading); border-color: var(--color-heading); }
         .btn-secondary:hover { background-color: var(--color-heading); color: var(--color-background); transform: translateY(-4px) scale(1.05); box-shadow: 0 0 15px -5px var(--color-heading); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
@@ -64,7 +67,8 @@
         .reveal-container.is-visible { opacity: 1; }
         .reveal-child { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity 0.8s var(--transition-curve), transform 0.8s var(--transition-curve); transition-delay: calc(var(--i) * 100ms); }
         .reveal-container.is-visible .reveal-child { opacity: 1; transform: translateY(0) scale(1); }
-        .main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: background-color 0.3s ease, border-bottom-color 0.3s ease; height: var(--header-height); display: flex; align-items: center; border-bottom: 1px solid transparent; }
+        .main-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: background-color 0.3s ease, border-bottom-color 0.3s ease, transform 0.5s var(--transition-curve); height: var(--header-height); display: flex; align-items: center; border-bottom: 1px solid transparent; transform: translateY(-100%); }
+        body.authenticated .main-header.in-view { transform: translateY(0); }
         .main-header.scrolled { background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom-color: var(--color-card-border); }
         .navbar { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 5%; }
         .nav-left { display: flex; align-items: center; gap: 60px; }
@@ -89,22 +93,19 @@
         .hero-title:hover .gradient-text { background-position: right center; }
         .hero-subtitle { font-size: 1.25rem; max-width: 650px; margin: 0 auto 40px; min-height: 58px; opacity: 0; animation: reveal-up 1s cubic-bezier(0.165, 0.84, 0.44, 1) 0.8s forwards; }
         .hero-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; opacity: 0; animation: reveal-up 1s cubic-bezier(0.165, 0.84, 0.44, 1) 1s forwards; }
-        
-        /* --- Supported Games Section (GRID LAYOUT) --- */
         .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; }
         .game-card { background: var(--color-card-bg); border-radius: var(--border-radius); overflow: hidden; text-align: left; transition: all 0.3s ease; border: 1px solid var(--color-card-border); }
         .game-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); border-color: var(--color-card-border-hover); }
         .game-card.coming-soon { opacity: 0.6; filter: grayscale(80%); }
-        .game-card-thumbnail { position: relative; }
+        .game-card-thumbnail { position: relative; background-color: #111; }
         .game-card-thumbnail img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; }
+        .game-card-thumbnail:not(:has(img))::before { content: attr(data-name); position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-weight: 600; color: rgba(255,255,255,0.7); background-image: radial-gradient(var(--color-card-border) 1px, transparent 1px); background-size: 10px 10px; }
         .coming-soon-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--color-heading); font-size: 1.1rem; letter-spacing: 1px; backdrop-filter: blur(2px); }
         .game-card-info { padding: 20px; }
         .game-card-info h3 { color: var(--color-heading); font-size: 1.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .game-card-info p { color: var(--color-text); opacity: 0.7; font-size: 0.9rem; }
         .game-card-actions { padding: 0 20px 20px; display: flex; gap: 10px; }
         .game-card-actions .btn { padding: 8px 20px; font-size: 0.9rem; }
-
-        /* --- Features Section --- */
         .feature-tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; }
         .feature-tab-btn { background: var(--color-card-bg); border: 1px solid var(--color-card-border); color: var(--color-text); padding: 12px 24px; border-radius: 8px; cursor: pointer; font-family: var(--font-family); font-weight: 600; transition: all 0.3s; }
         .feature-tab-btn:hover { background: rgba(255,255,255,0.1); color: var(--color-heading); transform: translateY(-3px); }
@@ -120,8 +121,6 @@
         .cta-script-box { text-align: center; margin: 60px auto 0; padding: 40px; border-radius: var(--border-radius); max-width: 650px; background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%), var(--color-card-bg); }
         .cta-script-box h4 { font-size: 1.5rem; }
         .get-script-btn { margin-top: 20px; }
-        
-        /* --- Updates / Timeline Section (REDESIGNED) --- */
         .timeline-container { position: relative; max-width: 900px; margin: 0 auto; }
         .timeline-container::before { content: ''; position: absolute; width: 3px; background: var(--color-card-border); top: 0; bottom: 0; left: 24px; border-radius: 3px; }
         .timeline-item { position: relative; padding: 20px 0 40px 70px; }
@@ -135,8 +134,6 @@
         .timeline-card ul { list-style: none; padding-left: 0; }
         .timeline-card li { margin-bottom: 8px; position: relative; padding-left: 25px; }
         .timeline-card li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 0; color: var(--color-status-up); }
-
-        /* --- Staff Section (HORIZONTAL LAYOUT) --- */
         .staff-list { display: flex; flex-direction: column; gap: 30px; max-width: 900px; margin: 0 auto; }
         .staff-card { padding: 25px; display: grid; grid-template-columns: auto 1fr auto; gap: 25px; align-items: center; text-align: left; }
         .staff-avatar { width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--color-card-border); object-fit: cover; transition: all 0.3s ease; }
@@ -147,10 +144,10 @@
         .staff-socials a:hover { color: var(--color-heading); transform: translateY(-2px); }
         
         /* --- Bug Report & Login Section --- */
-        #login-wall { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--color-background); z-index: 10000; display: none; align-items: center; justify-content: center; text-align: center; transition: opacity 0.5s ease; }
-        body.unauthenticated #login-wall { display: flex; }
-        #main-content { display: none; }
-        body.authenticated #main-content { display: block; }
+        #login-wall { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--color-background); z-index: 10000; display: none; align-items: center; justify-content: center; text-align: center; opacity: 0; transition: opacity 0.5s ease; }
+        body.unauthenticated #login-wall { display: flex; opacity: 1; }
+        #main-content { display: none; opacity: 0; transition: opacity 0.5s ease; }
+        body.authenticated #main-content { display: block; opacity: 1; }
         #bug-report-form { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; text-align: left; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--color-heading); }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--color-card-border); background: var(--color-card-bg); color: var(--color-text); font-family: var(--font-family); font-size: 1rem; transition: border-color 0.3s, box-shadow 0.3s; }
@@ -158,7 +155,7 @@
         .form-group select { appearance: none; -webkit-appearance: none; padding-right: 40px; }
         .form-group .select-wrapper::after { content: ''; position: absolute; top: 50%; right: 15px; width: 8px; height: 8px; border-right: 2px solid var(--color-text); border-bottom: 2px solid var(--color-text); transform: translateY(-75%) rotate(45deg); pointer-events: none; transition: border-color 0.3s; }
         .form-group .select-wrapper:hover::after { border-color: var(--color-heading); }
-        .form-group input.invalid, .form-group textarea.invalid, .form-group select.invalid { border-color: var(--color-status-down) !important; box-shadow: 0 0 10px rgba(255, 51, 102, 0.3) !important; }
+        .form-group input.invalid, .form-group textarea.invalid, .form-group select.invalid { border-color: var(--color-status-down) !important; box-shadow: 0 0 10px rgba(255, 51, 102, 0.3) !important; animation: shake 0.3s; }
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--color-heading); box-shadow: 0 0 10px var(--color-glow); }
         .form-group textarea { resize: vertical; min-height: 120px; }
         #form-status-message { margin-top: 20px; font-weight: 600; text-align: center; }
@@ -169,20 +166,23 @@
         .user-info-details { display: flex; align-items: center; gap: 15px; }
         .user-avatar { width: 50px; height: 50px; border-radius: 50%; }
         .user-name { font-weight: 600; color: var(--color-heading); }
+        .nav-user-profile { position: relative; }
+        .nav-user-profile .user-info-details { cursor: pointer; }
+        .nav-user-profile .profile-dropdown { position: absolute; top: calc(100% + 15px); right: 0; background: #111; border: 1px solid var(--color-card-border); border-radius: 8px; overflow: hidden; width: 200px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; z-index: 100; }
+        .nav-user-profile:hover .profile-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .profile-dropdown-user { padding: 15px; border-bottom: 1px solid var(--color-card-border); }
+        .profile-dropdown #discord-logout-btn-header { display: block; width: 100%; text-align: left; background: none; border: none; color: var(--color-status-down); padding: 15px; font-size: 1rem; cursor: pointer; }
+        .profile-dropdown #discord-logout-btn-header:hover { background: rgba(255, 51, 102, 0.1); }
         
-        /* --- Footer & CTA --- */
         #cta-section { padding: 120px 5%; background: transparent; }
         #cta-section h2 { font-size: 3rem; margin-bottom: 20px; }
         .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background-image: var(--primary-gradient); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; text-decoration: none; opacity: 0; visibility: hidden; transition: all 0.4s ease; z-index: 999; transform: translateY(20px); }
         .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        /* --- Responsive Design --- */
-        .mobile-nav-container { display: none; }
         @media (max-width: 1024px) {
-            .navbar { display: flex; justify-content: space-between; }
+            .navbar { display: flex; justify-content: space-between; align-items: center; }
             .nav-left, .nav-actions { display: none; }
-            .features-grid, .why-us-cards, .donation-grid, .partners-grid { grid-template-columns: 1fr; }
-            .mobile-nav-container { display: block; }
+            .mobile-nav-container { display: flex; align-items: center; gap: 20px; }
             .nav-menu { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; flex-direction: column; justify-content: center; gap: 40px; background-color: var(--color-background); transition: right 0.4s ease-in-out; z-index: 1000; display: flex; }
             .nav-menu.active { right: 0; }
             .hamburger { display: block; z-index: 1001; cursor: pointer; padding: 10px; background: transparent; border: none; }
@@ -243,13 +243,23 @@
                     </div>
                 </div>
                 <div class="nav-actions">
-                    <div class="user-info-details" style="gap: 10px;">
-                        <img src="" alt="User Avatar" id="nav-user-avatar" class="user-avatar" style="width: 40px; height: 40px;">
-                        <span id="nav-user-name" class="user-name"></span>
+                    <div class="nav-user-profile">
+                        <div class="user-info-details">
+                            <img src="" alt="User Avatar" id="nav-user-avatar" class="user-avatar" style="width: 40px; height: 40px;">
+                        </div>
+                        <div class="profile-dropdown">
+                            <div class="profile-dropdown-user">
+                                <span id="nav-user-name" class="user-name"></span>
+                            </div>
+                            <button id="discord-logout-btn-header" class="btn">Logout</button>
+                        </div>
                     </div>
-                    <button id="discord-logout-btn-header" class="btn btn-secondary">Logout</button>
+                    <a href="https://discord.gg/qjsGU83urz" target="_blank" class="btn btn-primary nav-btn">Join Discord</a>
                 </div>
                 <div class="mobile-nav-container">
+                    <div id="mobile-user-info" class="user-info-details" style="display: none;">
+                        <img src="" alt="User Avatar" id="mobile-nav-user-avatar" class="user-avatar" style="width: 30px; height: 30px;">
+                    </div>
                     <button class="hamburger" aria-label="Open menu">
                         <span class="bar"></span><span class="bar"></span><span class="bar"></span>
                     </button>
@@ -285,60 +295,42 @@
                 <p class="section-subtitle reveal-container"><span class="reveal-child" style="--i: 1;">Our platform is continuously updated to support the most popular games.</span></p>
                 <div class="game-grid reveal-container" data-stagger-container>
                     <div class="game-card reveal-child" style="--i: 2;">
-                        <div class="game-card-thumbnail"><img src="https://tr.rbxcdn.com/180DAY-be12fd748fa9edb14093a8d0a0955b52/768/432/Image/Webp/noFilter" alt="Game Thumbnail"></div>
+                        <div class="game-card-thumbnail"><img src="https://tr.rbxcdn.com/180DAY-be12fd748fa9edb14093a8d0a0955b52/768/432/Image/Webp/noFilter" alt="Realistic Street Soccer"></div>
                         <div class="game-card-info"><h3>Realistic Street Soccer</h3><p>Operational</p></div>
                         <div class="game-card-actions"><a href="#features" class="btn btn-primary features-trigger" data-game="rss">Features</a></div>
                     </div>
                     <div class="game-card reveal-child" style="--i: 3;">
-                        <div class="game-card-thumbnail"><img src="https://tr.rbxcdn.com/180DAY-0d42b2465cd7451d3f604eb745e5d532/768/432/Image/Webp/noFilter" alt="Game Thumbnail"></div>
+                        <div class="game-card-thumbnail"><img src="https://tr.rbxcdn.com/180DAY-0d42b2465cd7451d3f604eb745e5d532/768/432/Image/Webp/noFilter" alt="TPS: Street Soccer"></div>
                         <div class="game-card-info"><h3>TPS: Street Soccer</h3><p>Maintenance</p></div>
                         <div class="game-card-actions"><a href="#features" class="btn btn-primary features-trigger" data-game="tps">Features</a></div>
                     </div>
                      <div class="game-card coming-soon reveal-child" style="--i: 4;">
-                        <div class="game-card-thumbnail">
-                            <img src="https://tr.rbxcdn.com/180DAY-21312a02b37804403e1e62678125553e/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
-                            <div class="coming-soon-overlay">COMING SOON</div>
-                        </div>
+                        <div class="game-card-thumbnail" data-name="Super Football"><div class="coming-soon-overlay">COMING SOON</div></div>
                         <div class="game-card-info"><h3>Super Football</h3></div>
                         <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
                     </div>
                     <div class="game-card coming-soon reveal-child" style="--i: 5;">
-                        <div class="game-card-thumbnail">
-                            <img src="https://tr.rbxcdn.com/180DAY-5047f3b8906967733221ea1b5853f630/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
-                            <div class="coming-soon-overlay">COMING SOON</div>
-                        </div>
+                        <div class="game-card-thumbnail" data-name="Baseball Batting Cages"><div class="coming-soon-overlay">COMING SOON</div></div>
                         <div class="game-card-info"><h3>Baseball Batting Cages</h3></div>
                         <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
                     </div>
                     <div class="game-card coming-soon reveal-child" style="--i: 6;">
-                        <div class="game-card-thumbnail">
-                            <img src="https://tr.rbxcdn.com/180DAY-e8e578c79244ac5a0109f06a8677c784/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
-                            <div class="coming-soon-overlay">COMING SOON</div>
-                        </div>
+                        <div class="game-card-thumbnail" data-name="Gridiron Football 2.0"><div class="coming-soon-overlay">COMING SOON</div></div>
                         <div class="game-card-info"><h3>Gridiron Football 2.0</h3></div>
                         <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
                     </div>
                      <div class="game-card coming-soon reveal-child" style="--i: 7;">
-                        <div class="game-card-thumbnail">
-                            <img src="https://tr.rbxcdn.com/180DAY-c76b9f4e2f928a38c2323f64c67f0814/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
-                            <div class="coming-soon-overlay">COMING SOON</div>
-                        </div>
+                        <div class="game-card-thumbnail" data-name="Hockey Legends"><div class="coming-soon-overlay">COMING SOON</div></div>
                         <div class="game-card-info"><h3>Hockey Legends</h3></div>
                         <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
                     </div>
                     <div class="game-card coming-soon reveal-child" style="--i: 8;">
-                        <div class="game-card-thumbnail">
-                            <img src="https://tr.rbxcdn.com/180DAY-218151480a4023759a20468f05a5a9c3/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
-                            <div class="coming-soon-overlay">COMING SOON</div>
-                        </div>
+                        <div class="game-card-thumbnail" data-name="Basketball Stars 3"><div class="coming-soon-overlay">COMING SOON</div></div>
                         <div class="game-card-info"><h3>Basketball Stars 3</h3></div>
                         <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
                     </div>
                      <div class="game-card coming-soon reveal-child" style="--i: 9;">
-                        <div class="game-card-thumbnail">
-                            <img src="https://tr.rbxcdn.com/180DAY-ac9a6b0c2a23e51221c97a2ff82c4224/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
-                            <div class="coming-soon-overlay">COMING SOON</div>
-                        </div>
+                        <div class="game-card-thumbnail" data-name="[UPD] Basketball: Zero"><div class="coming-soon-overlay">COMING SOON</div></div>
                         <div class="game-card-info"><h3>[UPD] Basketball: Zero</h3></div>
                         <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
                     </div>
@@ -509,13 +501,11 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // --- CONFIGURATION ---
         const DISCORD_CLIENT_ID = "1397805094854197280";
         const REDIRECT_URI = window.location.origin + window.location.pathname;
         const WEBHOOK_URL = 'https://discord.com/api/webhooks/1397780583106478202/WiPtKfjFIB-uaPRT2gMEdGRZZ1pDEIRnmA4sqRH36sfWdTFGpmNNLOeLt7eyKoJrnPw7';
         const RATE_LIMIT_MS = 60 * 60 * 1000;
 
-        // --- DOM ELEMENTS ---
         const mainContent = document.getElementById('main-content');
         const discordLoginBtn = document.getElementById('discord-login-btn');
         const discordLogoutBtnHeader = document.getElementById('discord-logout-btn-header');
@@ -523,8 +513,7 @@
         const bugReportForm = document.getElementById('bug-report-form');
         const requiredFields = bugReportForm.querySelectorAll('[required]');
 
-        // --- AUTH & PAGE INITIALIZATION ---
-        const showLoginWall = (message = null) => {
+        const showLoginWall = () => {
             document.body.classList.remove('authenticated');
             document.body.classList.add('unauthenticated');
         };
@@ -540,6 +529,8 @@
             document.getElementById('user-name').textContent = userName;
             document.getElementById('nav-user-avatar').src = avatarUrl;
             document.getElementById('nav-user-name').textContent = userName;
+            document.getElementById('mobile-nav-user-avatar').src = avatarUrl;
+            document.getElementById('mobile-user-info').style.display = 'flex';
 
             initializePage(); 
         };
@@ -586,10 +577,12 @@
 
         handleOAuthCallback();
 
-        // --- ALL OTHER PAGE SCRIPTS ---
         function initializePage() {
             const isReducedMotion = window.matchMedia(`(prefers-reduced-motion: reduce)`).matches;
             const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+
+            const mainHeader = document.querySelector('.main-header');
+            setTimeout(() => { mainHeader.classList.add('in-view'); }, 100);
 
             if (isFinePointer && !isReducedMotion) {
                 const glow = document.getElementById('cursor-glow');
@@ -666,7 +659,7 @@
             const featureTriggers = document.querySelectorAll('.features-trigger');
             function switchFeatureTab(gameId) {
                 featureTabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.game === gameId));
-                featurePanes.forEach(pane => pane.classList.toggle('active', pane.id === `features-${gameId}`));
+                featurePanes.forEach(pane => pane.classList.toggle('active', pane.id === `features-${gameId}`);
             }
             featureTabButtons.forEach(button => button.addEventListener('click', () => switchFeatureTab(button.dataset.game)));
             featureTriggers.forEach(button => {
