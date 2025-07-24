@@ -51,19 +51,15 @@
         .btn { position: relative; display: inline-block; padding: 14px 32px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all var(--transition-speed) var(--transition-curve); border: 1px solid var(--color-card-border); cursor: pointer; white-space: nowrap; overflow: hidden; backdrop-filter: blur(5px); }
         .btn-primary { background-image: var(--primary-gradient); color: #000; border-color: transparent; box-shadow: 0 8px 30px -10px var(--color-glow); }
         .btn-primary:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 12px 35px -8px var(--color-glow); }
-        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 75%; height: 100%; transform: skewX(-25deg); background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%); animation: btn-shine 1s ease-in-out 2.5s infinite; }
+        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 75%; height: 100%; transform: skewX(-25deg); background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%); animation: btn-shine 1s ease-in-out 2.s infinite; }
         .btn-secondary { background-color: transparent; color: var(--color-heading); border-color: var(--color-heading); }
         .btn-secondary:hover { background-color: var(--color-heading); color: var(--color-background); transform: translateY(-4px) scale(1.05); box-shadow: 0 0 15px -5px var(--color-heading); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
         .content-section { padding: 140px 5%; max-width: 1280px; margin: 0 auto; text-align: center; }
         .section-title { font-size: 3.5rem; font-weight: 800; color: var(--color-heading); margin-bottom: 20px; line-height: 1.2; letter-spacing: -0.02em; }
         .section-subtitle { font-size: 1.1rem; max-width: 700px; margin: 0 auto 80px auto; color: var(--color-text); }
         .gradient-text { background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
         .card { background: var(--color-card-bg); border-radius: var(--border-radius); padding: 40px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--color-card-border); transform-style: preserve-3d; transition: transform 0.6s var(--transition-curve), box-shadow 0.6s var(--transition-curve); }
-        .card-glow { position: relative; overflow: hidden; }
-        .card-glow::before { content: ''; position: absolute; left: var(--mouse-x, -100%); top: var(--mouse-y, -100%); width: 250px; height: 250px; background: radial-gradient(circle, var(--color-heading) 0%, transparent 60%); transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.4s ease; z-index: 0; }
-        .card-glow:hover { box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3); border-color: var(--color-card-border-hover); }
-        .card-glow:hover::before { opacity: 0.1; }
-        .card-glow > * { position: relative; z-index: 1; }
         .reveal-container { opacity: 0; transition: opacity 0.8s ease; }
         .reveal-container.is-visible { opacity: 1; }
         .reveal-child { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity 0.8s var(--transition-curve), transform 0.8s var(--transition-curve); transition-delay: calc(var(--i) * 100ms); }
@@ -93,17 +89,22 @@
         .hero-title:hover .gradient-text { background-position: right center; }
         .hero-subtitle { font-size: 1.25rem; max-width: 650px; margin: 0 auto 40px; min-height: 58px; opacity: 0; animation: reveal-up 1s cubic-bezier(0.165, 0.84, 0.44, 1) 0.8s forwards; }
         .hero-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; opacity: 0; animation: reveal-up 1s cubic-bezier(0.165, 0.84, 0.44, 1) 1s forwards; }
-        .game-list-container { max-width: 900px; margin: 0 auto; text-align: left; }
-        .game-row { display: grid; grid-template-columns: 1fr auto auto; gap: 20px; align-items: center; padding: 20px; border: 1px solid var(--color-card-border); border-radius: var(--border-radius); transition: all 0.3s ease; }
-        .game-row:not(:last-child) { margin-bottom: 20px; }
-        .game-row:hover { background: var(--color-card-bg); border-color: var(--color-card-border-hover); transform: translateY(-5px); }
-        .game-row-info h3 { font-size: 1.5rem; color: var(--color-heading); margin-bottom: 2px; }
-        .game-row-info p { font-size: 0.9rem; color: var(--color-text); opacity: 0.7; }
-        .game-row-actions { display: flex; gap: 15px; }
-        .game-row-actions .btn-primary { padding: 10px 20px; }
-        .status-pill { padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
-        .status-pill.status-up { background-color: rgba(0, 255, 127, 0.1); color: var(--color-status-up); box-shadow: 0 0 10px rgba(0, 255, 127, 0.2); }
-        .status-pill.status-down { background-color: rgba(255, 51, 102, 0.1); color: var(--color-status-down); box-shadow: 0 0 10px rgba(255, 51, 102, 0.2); }
+        
+        /* --- Supported Games Section (GRID LAYOUT) --- */
+        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; }
+        .game-card { background: var(--color-card-bg); border-radius: var(--border-radius); overflow: hidden; text-align: left; transition: all 0.3s ease; border: 1px solid var(--color-card-border); }
+        .game-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); border-color: var(--color-card-border-hover); }
+        .game-card.coming-soon { opacity: 0.6; filter: grayscale(80%); }
+        .game-card-thumbnail { position: relative; }
+        .game-card-thumbnail img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; }
+        .coming-soon-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--color-heading); font-size: 1.1rem; letter-spacing: 1px; backdrop-filter: blur(2px); }
+        .game-card-info { padding: 20px; }
+        .game-card-info h3 { color: var(--color-heading); font-size: 1.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .game-card-info p { color: var(--color-text); opacity: 0.7; font-size: 0.9rem; }
+        .game-card-actions { padding: 0 20px 20px; display: flex; gap: 10px; }
+        .game-card-actions .btn { padding: 8px 20px; font-size: 0.9rem; }
+
+        /* --- Features Section --- */
         .feature-tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; }
         .feature-tab-btn { background: var(--color-card-bg); border: 1px solid var(--color-card-border); color: var(--color-text); padding: 12px 24px; border-radius: 8px; cursor: pointer; font-family: var(--font-family); font-weight: 600; transition: all 0.3s; }
         .feature-tab-btn:hover { background: rgba(255,255,255,0.1); color: var(--color-heading); transform: translateY(-3px); }
@@ -119,11 +120,23 @@
         .cta-script-box { text-align: center; margin: 60px auto 0; padding: 40px; border-radius: var(--border-radius); max-width: 650px; background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%), var(--color-card-bg); }
         .cta-script-box h4 { font-size: 1.5rem; }
         .get-script-btn { margin-top: 20px; }
+        
+        /* --- Updates / Timeline Section (REDESIGNED) --- */
         .timeline-container { position: relative; max-width: 900px; margin: 0 auto; }
-        .timeline-line { position: absolute; width: 3px; background: var(--color-card-border); top: 0; bottom: 0; left: 20px; border-radius: 3px; overflow: hidden; }
-        .timeline-progress { position: absolute; width: 100%; height: 0; background: var(--primary-gradient); top: 0; left: 0; }
-        .timeline-item { position: relative; padding: 20px 0 20px 60px; }
-        .timeline-dot { position: absolute; width: 18px; height: 18px; background-color: var(--color-background); border: 4px solid; border-image-slice: 1; border-image-source: var(--primary-gradient); top: 38px; left: 12px; border-radius: 50%; z-index: 1; }
+        .timeline-container::before { content: ''; position: absolute; width: 3px; background: var(--color-card-border); top: 0; bottom: 0; left: 24px; border-radius: 3px; }
+        .timeline-item { position: relative; padding: 20px 0 40px 70px; }
+        .timeline-item::before { content: ''; position: absolute; width: 18px; height: 18px; background-color: var(--color-background); border: 4px solid; border-image-slice: 1; border-image-source: var(--primary-gradient); top: 25px; left: 16px; border-radius: 50%; z-index: 1; }
+        .timeline-item::after { content: ''; position: absolute; width: 25px; height: 3px; background: var(--color-card-border); top: 32px; left: 45px; z-index: 0; }
+        .timeline-card { padding: 30px; text-align: left; }
+        .timeline-card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .timeline-card-header .icon { font-size: 1.5rem; }
+        .timeline-card-header h3 { font-size: 1.5rem; color: var(--color-heading); }
+        .timeline-card-header .update-date { margin-left: auto; color: var(--color-text); opacity: 0.7; font-size: 0.9rem; }
+        .timeline-card ul { list-style: none; padding-left: 0; }
+        .timeline-card li { margin-bottom: 8px; position: relative; padding-left: 25px; }
+        .timeline-card li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 0; color: var(--color-status-up); }
+
+        /* --- Staff Section (HORIZONTAL LAYOUT) --- */
         .staff-list { display: flex; flex-direction: column; gap: 30px; max-width: 900px; margin: 0 auto; }
         .staff-card { padding: 25px; display: grid; grid-template-columns: auto 1fr auto; gap: 25px; align-items: center; text-align: left; }
         .staff-avatar { width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--color-card-border); object-fit: cover; transition: all 0.3s ease; }
@@ -134,7 +147,7 @@
         .staff-socials a:hover { color: var(--color-heading); transform: translateY(-2px); }
         
         /* --- Bug Report & Login Section --- */
-        #login-wall { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--color-background); z-index: 10000; display: none; align-items: center; justify-content: center; text-align: center; }
+        #login-wall { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--color-background); z-index: 10000; display: none; align-items: center; justify-content: center; text-align: center; transition: opacity 0.5s ease; }
         body.unauthenticated #login-wall { display: flex; }
         #main-content { display: none; }
         body.authenticated #main-content { display: block; }
@@ -167,7 +180,7 @@
         .mobile-nav-container { display: none; }
         @media (max-width: 1024px) {
             .navbar { display: flex; justify-content: space-between; }
-            .nav-menu-container, .nav-actions { display: none; }
+            .nav-left, .nav-actions { display: none; }
             .features-grid, .why-us-cards, .donation-grid, .partners-grid { grid-template-columns: 1fr; }
             .mobile-nav-container { display: block; }
             .nav-menu { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; flex-direction: column; justify-content: center; gap: 40px; background-color: var(--color-background); transition: right 0.4s ease-in-out; z-index: 1000; display: flex; }
@@ -180,11 +193,10 @@
             .hero-title { font-size: 3.2rem; } .hero-subtitle { font-size: 1.1rem; } .section-title { font-size: 2.5rem; }
             .mobile-actions { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 20px; }
             .timeline-container { padding-left: 0; }
-            .timeline-line { left: 8px; }
             .timeline-item { padding-left: 40px; }
-            .timeline-dot { left: 0px; }
-            .game-row { grid-template-columns: 1fr; gap: 15px; }
-            .game-row-actions { justify-content: flex-start; }
+            .timeline-item::before { left: 8px; }
+            .timeline-item::after { left: 35px; }
+            .game-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
             .staff-card { grid-template-columns: 1fr; text-align: center; justify-items: center; gap: 15px; }
             .staff-socials { margin-top: 10px; }
             .staff-socials a { margin: 0 10px; }
@@ -235,7 +247,7 @@
                         <img src="" alt="User Avatar" id="nav-user-avatar" class="user-avatar" style="width: 40px; height: 40px;">
                         <span id="nav-user-name" class="user-name"></span>
                     </div>
-                    <a href="https://discord.gg/qjsGU83urz" target="_blank" class="btn btn-primary nav-btn">Join Discord</a>
+                    <button id="discord-logout-btn-header" class="btn btn-secondary">Logout</button>
                 </div>
                 <div class="mobile-nav-container">
                     <button class="hamburger" aria-label="Open menu">
@@ -271,28 +283,64 @@
             <section id="supported-games" class="content-section">
                 <h2 class="section-title reveal-container"><span class="reveal-child">Supported Games</span></h2>
                 <p class="section-subtitle reveal-container"><span class="reveal-child" style="--i: 1;">Our platform is continuously updated to support the most popular games.</span></p>
-                <div class="game-list-container reveal-container" data-stagger-container>
-                    <div class="game-row reveal-child" style="--i: 2;">
-                        <div class="game-row-info">
-                            <h3>Realistic Street Soccer</h3>
-                            <p>By The Builder's Legion</p>
-                        </div>
-                        <div class="status-pill status-up">Operational</div>
-                        <div class="game-row-actions">
-                            <a href="https://www.roblox.com/games/14315258385/Realistic-Street-Soccer" target="_blank" class="btn btn-primary"><i class="fas fa-play"></i> Play</a>
-                            <a href="#features" class="btn btn-secondary features-trigger" data-game="rss">Features</a>
-                        </div>
+                <div class="game-grid reveal-container" data-stagger-container>
+                    <div class="game-card reveal-child" style="--i: 2;">
+                        <div class="game-card-thumbnail"><img src="https://tr.rbxcdn.com/180DAY-be12fd748fa9edb14093a8d0a0955b52/768/432/Image/Webp/noFilter" alt="Game Thumbnail"></div>
+                        <div class="game-card-info"><h3>Realistic Street Soccer</h3><p>Operational</p></div>
+                        <div class="game-card-actions"><a href="#features" class="btn btn-primary features-trigger" data-game="rss">Features</a></div>
                     </div>
-                    <div class="game-row reveal-child" style="--i: 3;">
-                        <div class="game-row-info">
-                            <h3>TPS: Street Soccer</h3>
-                            <p>By @TAYFUN7</p>
+                    <div class="game-card reveal-child" style="--i: 3;">
+                        <div class="game-card-thumbnail"><img src="https://tr.rbxcdn.com/180DAY-0d42b2465cd7451d3f604eb745e5d532/768/432/Image/Webp/noFilter" alt="Game Thumbnail"></div>
+                        <div class="game-card-info"><h3>TPS: Street Soccer</h3><p>Maintenance</p></div>
+                        <div class="game-card-actions"><a href="#features" class="btn btn-primary features-trigger" data-game="tps">Features</a></div>
+                    </div>
+                     <div class="game-card coming-soon reveal-child" style="--i: 4;">
+                        <div class="game-card-thumbnail">
+                            <img src="https://tr.rbxcdn.com/180DAY-21312a02b37804403e1e62678125553e/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
+                            <div class="coming-soon-overlay">COMING SOON</div>
                         </div>
-                        <div class="status-pill status-down">Maintenance</div>
-                        <div class="game-row-actions">
-                            <a href="https://www.roblox.com/games/335760407/TPS-Street-Soccer" target="_blank" class="btn btn-primary"><i class="fas fa-play"></i> Play</a>
-                            <a href="#features" class="btn btn-secondary features-trigger" data-game="tps">Features</a>
+                        <div class="game-card-info"><h3>Super Football</h3></div>
+                        <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
+                    </div>
+                    <div class="game-card coming-soon reveal-child" style="--i: 5;">
+                        <div class="game-card-thumbnail">
+                            <img src="https://tr.rbxcdn.com/180DAY-5047f3b8906967733221ea1b5853f630/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
+                            <div class="coming-soon-overlay">COMING SOON</div>
                         </div>
+                        <div class="game-card-info"><h3>Baseball Batting Cages</h3></div>
+                        <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
+                    </div>
+                    <div class="game-card coming-soon reveal-child" style="--i: 6;">
+                        <div class="game-card-thumbnail">
+                            <img src="https://tr.rbxcdn.com/180DAY-e8e578c79244ac5a0109f06a8677c784/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
+                            <div class="coming-soon-overlay">COMING SOON</div>
+                        </div>
+                        <div class="game-card-info"><h3>Gridiron Football 2.0</h3></div>
+                        <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
+                    </div>
+                     <div class="game-card coming-soon reveal-child" style="--i: 7;">
+                        <div class="game-card-thumbnail">
+                            <img src="https://tr.rbxcdn.com/180DAY-c76b9f4e2f928a38c2323f64c67f0814/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
+                            <div class="coming-soon-overlay">COMING SOON</div>
+                        </div>
+                        <div class="game-card-info"><h3>Hockey Legends</h3></div>
+                        <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
+                    </div>
+                    <div class="game-card coming-soon reveal-child" style="--i: 8;">
+                        <div class="game-card-thumbnail">
+                            <img src="https://tr.rbxcdn.com/180DAY-218151480a4023759a20468f05a5a9c3/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
+                            <div class="coming-soon-overlay">COMING SOON</div>
+                        </div>
+                        <div class="game-card-info"><h3>Basketball Stars 3</h3></div>
+                        <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
+                    </div>
+                     <div class="game-card coming-soon reveal-child" style="--i: 9;">
+                        <div class="game-card-thumbnail">
+                            <img src="https://tr.rbxcdn.com/180DAY-ac9a6b0c2a23e51221c97a2ff82c4224/768/432/Image/Webp/noFilter" alt="Game Thumbnail">
+                            <div class="coming-soon-overlay">COMING SOON</div>
+                        </div>
+                        <div class="game-card-info"><h3>[UPD] Basketball: Zero</h3></div>
+                        <div class="game-card-actions"><button class="btn btn-secondary" disabled>Features</button></div>
                     </div>
                 </div>
             </section>
@@ -342,15 +390,31 @@
             <section id="updates" class="content-section">
                 <h2 class="section-title reveal-container"><span class="reveal-child"><span class="gradient-text">Development Roadmap</span></span></h2>
                 <p class="section-subtitle reveal-container"><span class="reveal-child" style="--i: 1;">We are committed to continuous improvement and transparency.</span></p>
-                <div class="timeline-container reveal-container" data-stagger-container>
-                    <div class="timeline-line"><div class="timeline-progress"></div></div>
+                <div class="timeline-container reveal-container">
+                    <div class="timeline-line"></div>
                     <div class="timeline-item reveal-child" style="--i: 2;">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content card card-glow"><h3>Version 1.0.1 <span class="update-date">- May 8, 2025</span></h3><div class="update-log"><h4><i class="fas fa-shield-alt"></i> Security & Stability</h4><ul><li>Enhanced core anti-cheat bypasses.</li><li>Fixed various minor bugs for a smoother experience.</li></ul></div></div>
+                         <div class="timeline-card card card-glow">
+                            <div class="timeline-card-header">
+                                <i class="fas fa-shield-alt icon gradient-text"></i>
+                                <h3>Security & Stability</h3>
+                                <span class="update-date">May 8, 2025</span>
+                            </div>
+                            <p>Enhanced core anti-cheat bypasses and fixed various minor bugs for a smoother experience.</p>
+                         </div>
                     </div>
-                    <div class="timeline-item reveal-child" style="--i: 3;">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content card card-glow"><h3>Version 1.0.0 <span class="update-date">- May 1, 2025</span></h3><div class="update-log"><h4><i class="fas fa-rocket"></i> Initial Release</h4><ul><li>Core script framework and UI established.</li><li>Initial free script for Realistic Street Soccer released.</li><li>Security and anti-cheat bypasses implemented.</li></ul></div></div>
+                     <div class="timeline-item reveal-child" style="--i: 3;">
+                         <div class="timeline-card card card-glow">
+                            <div class="timeline-card-header">
+                                <i class="fas fa-rocket icon gradient-text"></i>
+                                <h3>Initial Release</h3>
+                                <span class="update-date">May 1, 2025</span>
+                            </div>
+                            <ul>
+                                <li>Core script framework and UI established.</li>
+                                <li>Initial free script for Realistic Street Soccer released.</li>
+                                <li>Security and anti-cheat bypasses implemented.</li>
+                            </ul>
+                         </div>
                     </div>
                 </div>
             </section>
@@ -454,7 +518,8 @@
         // --- DOM ELEMENTS ---
         const mainContent = document.getElementById('main-content');
         const discordLoginBtn = document.getElementById('discord-login-btn');
-        const discordLogoutBtn = document.getElementById('discord-logout-btn');
+        const discordLogoutBtnHeader = document.getElementById('discord-logout-btn-header');
+        const discordLogoutBtnForm = document.getElementById('discord-logout-btn');
         const bugReportForm = document.getElementById('bug-report-form');
         const requiredFields = bugReportForm.querySelectorAll('[required]');
 
@@ -462,10 +527,6 @@
         const showLoginWall = (message = null) => {
             document.body.classList.remove('authenticated');
             document.body.classList.add('unauthenticated');
-            if(message) {
-                const msgEl = document.getElementById('login-status-message');
-                if (msgEl) msgEl.textContent = message;
-            }
         };
 
         const showMainContent = (userData) => {
@@ -482,16 +543,20 @@
 
             initializePage(); 
         };
+        
+        const handleLogout = () => {
+            localStorage.removeItem('discord_user_v2');
+            document.body.classList.add('unauthenticated');
+            document.body.classList.remove('authenticated');
+        };
 
         discordLoginBtn.addEventListener('click', () => {
             const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify`;
             window.location.href = authUrl;
         });
-
-        discordLogoutBtn.addEventListener('click', () => {
-            localStorage.removeItem('discord_user_v2');
-            showLoginWall();
-        });
+        
+        discordLogoutBtnHeader.addEventListener('click', handleLogout);
+        discordLogoutBtnForm.addEventListener('click', handleLogout);
 
         const handleOAuthCallback = async () => {
             const fragment = new URLSearchParams(window.location.hash.substring(1));
@@ -536,7 +601,7 @@
                     const y = (clientY / window.innerHeight - 0.5) * 30;
                     requestAnimationFrame(() => { heroContent.style.transform = `translateX(${-x}px) translateY(${-y}px)`; });
                 });
-                document.querySelectorAll('.card-glow, .game-row').forEach(card => {
+                document.querySelectorAll('.card-glow, .game-card').forEach(card => {
                     const intensity = 15;
                     card.addEventListener('mousemove', (e) => {
                         const rect = card.getBoundingClientRect();
@@ -605,6 +670,7 @@
             }
             featureTabButtons.forEach(button => button.addEventListener('click', () => switchFeatureTab(button.dataset.game)));
             featureTriggers.forEach(button => {
+                if (button.disabled) return;
                 button.addEventListener('click', (e) => {
                     e.preventDefault();
                     document.querySelector('#features').scrollIntoView({ behavior: 'smooth' });
